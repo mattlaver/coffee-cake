@@ -17,9 +17,9 @@ functions:
     handler: handler.order
     events:
       - schedule:
-          rate: rate(1 minutes)
+          rate: rate(1 minute)
           enabled: true
    
     environment:
-      MENU_JSON_URL: "https://raw.githubusercontent.com/mattlaver/dojo-customers/master/menu.js"
+      MENU_JSON_URL: "https://raw.githubusercontent.com/mattlaver/coffee-cake/master/menu.js"
       TESCO_DOJO_ORDERS_TOPIC_ARN: arn:aws:sns:eu-west-1:520564598135:tesco-dojo-orders
