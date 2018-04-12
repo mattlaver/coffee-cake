@@ -1,18 +1,32 @@
 'use strict';
 
 const SplunkLogger = require("./splunkLogger");
-const url = "https://input-prd-p-rz2fczzz6d9w.cloud.splunk.com:8088/services/collector/event";
-const token = "3FC0D013-2F4B-4E6A-9229-95CA28A3C8CD";
 
 module.exports.receipt = (event, context, callback) => {
- // const order = parseMessage(event);
+  const order = parseMessage(event);
+
+  let cakeTotal = 0;
+  order.cake.forEach(cake => {  
+    cakeTotal += +cake.price;
+  });
+
+  console.log(`Cake Total: ${cakeTotal}`);
+
+
+  let coffeeTotal = 0;
+  order.coffee.forEach(coffee => {  
+    coffeeTotal += +coffee.price;
+  });
+
+  console.log(`Coffee Total: ${coffeeTotal}`);
+  
 
   const receipt = {
-    operatorId: "My Funky Name",
-    total: 1.23
+    operatorId: "Matt Wibble",
+    total: coffeeTotal + cakeTotal
   }
 
-  let logger = new SplunkLogger(token, url);
+  let logger = new SplunkLogger(process.env.SPLUNK_TOKEN, process.env.SPLUNK_URL);
 
   logger.logWithTime(Date.now(), JSON.stringify(receipt), context);
 
@@ -25,6 +39,7 @@ module.exports.receipt = (event, context, callback) => {
     }
   });
 };
+
 
 const parseMessage = snsMessage => {
   let record = snsMessage.Records[0];
