@@ -1,2 +1,4 @@
-# coffee-cake
-Coffee &amp; Cake Serverless Dojo
+# Coffee & Cake Dojo
+
+
+

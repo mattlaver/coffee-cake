@@ -1,0 +1,25 @@
+service: tesco-dojo-customers
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: eu-west-1
+  iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - sns:Publish
+        Resource:
+          - arn:aws:sns:eu-west-1:520564598135:tesco-dojo-orders
+
+functions:
+  order:
+    handler: handler.order
+    events:
+      - schedule:
+          rate: rate(1 minutes)
+          enabled: true
+   
+    environment:
+      MENU_JSON_URL: "https://raw.githubusercontent.com/mattlaver/dojo-customers/master/menu.js"
+      TESCO_DOJO_ORDERS_TOPIC_ARN: arn:aws:sns:eu-west-1:520564598135:tesco-dojo-orders
